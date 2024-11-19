@@ -65,14 +65,14 @@ const TaskItem = ({ task }) => {
                             variant="default"
                             className="text-gray-600 hover:text-gray-700 transition duration-300"
                         />
-                        <Button
-                            onClick={handleDelete}
-                            text="Delete"
-                            variant="default"
-                            className="text-red-500 hover:text-red-600 transition duration-300"
-                        />
                     </div>
                 )}
+                <Button
+                    onClick={handleDelete}
+                    text="Delete"
+                    variant="default"
+                    className="text-red-500 hover:text-red-600 transition duration-300"
+                />
             </div>
         </li>
     );
