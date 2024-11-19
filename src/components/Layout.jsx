@@ -1,13 +1,15 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "./Navbar"; // Import the Navbar component
+import Navbar from "@/components/Navbar";
+import SuspenseErrorBoundary from "./ErrorBoundary";
 
 const Layout = () => {
     return (
         <div>
             <Navbar />
             <div className="flex justify-center">
-                {/* The nested routes will be rendered here */}
-                <Outlet />
+                <SuspenseErrorBoundary>
+                    <Outlet />
+                </SuspenseErrorBoundary>
             </div>
         </div>
     );

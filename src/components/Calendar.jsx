@@ -1,5 +1,7 @@
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import "@/Calendar.css";
+import { parseDate } from "@/utils/dateUtil";
 
 const CalendarComponent = ({
     selectedDate,
@@ -8,29 +10,29 @@ const CalendarComponent = ({
     completedTaskDates,
 }) => {
     const today = new Date();
-    const parseDate = (dateStr) => {
-        const [day, month, year] = dateStr.split("/");
-        return new Date(`${year}-${month}-${day}`);
-    };
-    const parsedDate = parseDate(selectedDate);
-    const tileClassName = ({ date, view }) => {
+
+    const parsedSelectedDate = parseDate(selectedDate);
+
+    const getTileClassName = ({ date, view }) => {
         if (view === "month") {
-            if (taskDates.has(date.toLocaleDateString())) {
+            const dateString = date.toLocaleDateString();
+            if (taskDates.has(dateString)) {
                 return "task-day";
             }
-            if (completedTaskDates.has(date.toLocaleDateString())) {
+            if (completedTaskDates.has(dateString)) {
                 return "completed-task-day";
             }
         }
         return "";
     };
+
     return (
         <div className="mb-4">
             <Calendar
                 minDate={today}
                 onChange={onDateChange}
-                value={parsedDate}
-                tileClassName={tileClassName}
+                value={parsedSelectedDate}
+                tileClassName={getTileClassName}
             />
         </div>
     );

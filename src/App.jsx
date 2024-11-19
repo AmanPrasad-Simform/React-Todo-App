@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout";
-import TodoList from "./components/TodoList";
-import TaskList from "./components/TaskList";
 import { useDispatch } from "react-redux";
-import { changeDateToNewDueDate } from "./slices/todoSlice";
+import { changeDateToNewDueDate } from "@/slices/todoSlice";
+import { lazy } from "react";
+import Layout from "@/components/Layout";
+
+const TodoList = lazy(() => import("./components/TodoList"));
+const TaskList = lazy(() => import("./components/TaskList"));
 
 function App() {
     const dispatch = useDispatch();

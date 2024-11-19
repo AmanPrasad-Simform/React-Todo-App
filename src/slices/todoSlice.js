@@ -1,4 +1,3 @@
-// src/slices/todoSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 export const todoSlice = createSlice({
@@ -46,22 +45,19 @@ export const todoSlice = createSlice({
             }
         },
         changeDateToNewDueDate: (state) => {
+            const today = new Date();
+            const isWeekend = today.getDay() === 0 || today.getDay() === 6;
+
+            if (isWeekend) {
+                const daysToAdd = today.getDay() === 0 ? 1 : 2;
+                today.setDate(today.getDate() + daysToAdd);
+            }
+
+            const formattedToday = today.toLocaleDateString();
+
             state.tasks.forEach((task) => {
-                if (
-                    !task.completed &&
-                    task.date < new Date().toLocaleDateString()
-                ) {
-                    const today = new Date();
-                    if (today.getDay() !== 0 && today.getDay() !== 6) {
-                        // Sunday and Saturday
-                        task.date = today.toLocaleDateString();
-                    } else {
-                        today.setDate(
-                            today.getDate() +
-                                ((1 + today.getDay() + 4) % 7 || 7)
-                        );
-                        task.date = today.toLocaleDateString();
-                    }
+                if (!task.completed && task.date < formattedToday) {
+                    task.date = formattedToday;
                 }
             });
         },
