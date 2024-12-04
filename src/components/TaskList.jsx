@@ -1,10 +1,9 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useState, useContext } from "react";
 import TaskItem from "./TaskItem";
+import MyContext from "../context/TodoContext";
 
 const TaskList = () => {
-    const { tasks } = useSelector((state) => state.todos);
-
+    const { tasks } = useContext(MyContext);
     const [selectedTab, setSelectedTab] = useState("active");
 
     const toggleTab = (tab) => {

@@ -3,11 +3,16 @@ import Layout from "./components/Layout";
 import TodoList from "./components/TodoList";
 import TaskList from "./components/TaskList";
 import { useDispatch } from "react-redux";
-import { changeDateToNewDueDate } from "./slices/todoSlice";
+import { useContext, useEffect } from "react";
+import MyContext from "./context/TodoContext";
 
 function App() {
-    const dispatch = useDispatch();
-    dispatch(changeDateToNewDueDate());
+    const { changeDateToNewDueDate } = useContext(MyContext);
+    // changeDateToNewDueDate();
+    // if used directly, UseContext will be called again and again thats why using useEffect
+    useEffect(() => {
+        changeDateToNewDueDate();
+    }, []);
 
     return (
         <Router>

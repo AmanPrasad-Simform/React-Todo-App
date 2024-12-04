@@ -1,12 +1,12 @@
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import { useContext } from "react";
+import MyContext from "../context/TodoContext";
 
-const CalendarComponent = ({
-    selectedDate,
-    onDateChange,
-    taskDates,
-    completedTaskDates,
-}) => {
+const CalendarComponent = ({ onDateChange, taskDates, completedTaskDates }) => {
+    // With a global state management library (like Redux), updated values are directly accessible.
+    // However, in the Context API, state updates are batched and only reflected after the render cycle completes.
+    const { selectedDate } = useContext(MyContext);
     const today = new Date();
     const parseDate = (dateStr) => {
         const [day, month, year] = dateStr.split("/");

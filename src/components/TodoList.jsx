@@ -1,31 +1,29 @@
 // src/components/TodoList.js
-import { useDispatch, useSelector } from "react-redux";
 import Calendar from "./Calendar";
 import TaskForm from "./TaskForm";
 import TaskItem from "./TaskItem";
-import {
-    setSelectedDate,
-    addTask,
-    updateTask,
-    setEditing,
-} from "../slices/todoSlice";
+import { useContext } from "react";
+import MyContext from "../context/TodoContext";
 
 const TodoList = () => {
-    const dispatch = useDispatch();
-    const { tasks, isEditing, selectedDate } = useSelector(
-        (state) => state.todos
-    );
+    const {
+        tasks,
+        isEditing,
+        selectedDate,
+        setEditing,
+        addTask,
+        updateTask,
+        setSelectedDate,
+    } = useContext(MyContext);
 
     const onSubmit = (data) => {
         const taskDate = selectedDate;
         if (isEditing !== null) {
-            dispatch(
-                updateTask({
-                    id: isEditing,
-                    updatedTask: { name: data.taskTitle },
-                })
-            );
-            dispatch(setEditing(null));
+            updateTask({
+                id: isEditing,
+                updatedTask: { name: data.taskTitle },
+            });
+            setEditing(null);
         } else {
             const newTask = {
                 id: Date.now(),
@@ -33,7 +31,7 @@ const TodoList = () => {
                 completed: false,
                 date: taskDate,
             };
-            dispatch(addTask(newTask));
+            addTask(newTask);
         }
     };
 
@@ -55,9 +53,10 @@ const TodoList = () => {
                 <div className="w-full sm:w-1/2">
                     <Calendar
                         selectedDate={selectedDate}
-                        onDateChange={(date) =>
-                            dispatch(setSelectedDate(date.toLocaleDateString()))
-                        }
+                        onDateChange={(date) => {
+                            setEditing(null);
+                            setSelectedDate(date);
+                        }}
                         taskDates={taskDates}
                         completedTaskDates={completedTaskDates}
                     />

@@ -1,13 +1,11 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { addTask, updateTask, setEditing } from "../slices/todoSlice";
+import { useContext } from "react";
+import MyContext from "../context/TodoContext";
 
 const TaskForm = () => {
-    const dispatch = useDispatch();
-    const { tasks, isEditing, selectedDate } = useSelector(
-        (state) => state.todos
-    );
+    const { tasks, addTask, updateTask, isEditing, selectedDate, setEditing } =
+        useContext(MyContext);
 
     const {
         register,
@@ -34,16 +32,14 @@ const TaskForm = () => {
     const handleFormSubmit = (data) => {
         const taskDate = selectedDate;
         if (isEditing !== null) {
-            dispatch(
-                updateTask({
-                    id: isEditing,
-                    updatedTask: {
-                        name: data.taskTitle,
-                        description: data.taskDescription,
-                    },
-                })
-            );
-            dispatch(setEditing(null));
+            updateTask({
+                id: isEditing,
+                updatedTask: {
+                    name: data.taskTitle,
+                    description: data.taskDescription,
+                },
+            });
+            setEditing(null);
         } else {
             const newTask = {
                 id: Date.now(),
@@ -52,7 +48,7 @@ const TaskForm = () => {
                 completed: false,
                 date: taskDate,
             };
-            dispatch(addTask(newTask));
+            addTask(newTask);
         }
         reset();
     };

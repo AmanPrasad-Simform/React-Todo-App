@@ -1,31 +1,36 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-    setEditing,
-    deleteTask,
-    toggleTaskCompletion,
-    setSelectedDate,
-} from "../slices/todoSlice";
+import { useContext } from "react";
+import MyContext from "../context/TodoContext";
+
 const TaskItem = ({ task }) => {
     console.log("taskitem");
-    const dispatch = useDispatch();
+    const {
+        tasks,
+        addTask,
+        updateTask,
+        setEditing,
+        selectedDate,
+        setSelectedDate,
+        isEditing,
+        deleteTask,
+        toggleTaskCompletion,
+    } = useContext(MyContext);
     const navigateTo = useNavigate();
-    const { isEditing } = useSelector((state) => state.todos);
 
     const handleEdit = (id) => {
-        dispatch(setEditing(id));
-        dispatch(setSelectedDate(task.date));
+        setEditing(id);
+        setSelectedDate(task.date);
         navigateTo("/addTask");
     };
 
     const handleDelete = (id) => {
-        dispatch(deleteTask(id));
+        deleteTask(id);
         if (isEditing === id) {
-            dispatch(setEditing(null));
+            setEditing(null);
         }
     };
     const toggleCompletion = (id) => {
-        dispatch(toggleTaskCompletion(id));
+        toggleTaskCompletion(id);
     };
     return (
         <li
