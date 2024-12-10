@@ -10,11 +10,13 @@ class SuspenseErrorBoundary extends React.Component {
         };
     }
 
-    static getDerivedStateFromError() {
+    static getDerivedStateFromError(error) {
+        // Set the error state for rendering fallback UI
         return { hasError: true };
     }
 
     componentDidCatch(error, errorInfo) {
+        // Log error details or perform side effects
         console.error("Error caught by ErrorBoundary:", error, errorInfo);
         this.setState({ errorInfo });
     }

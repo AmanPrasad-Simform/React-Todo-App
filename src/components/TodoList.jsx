@@ -3,7 +3,7 @@ import Calendar from "@/components/Calendar";
 import TaskForm from "@/components/TaskForm";
 import TaskItem from "@/components/TaskItem";
 import { setSelectedDate } from "@/slices/todoSlice";
-
+import { Suspense } from "react";
 const SelectedDateTaskList = ({ tasks, selectedDate }) => {
     return (
         <div>
@@ -53,7 +53,9 @@ const TodoList = () => {
                     />
                 </div>
                 <div className="w-full sm:w-1/2">
-                    <TaskForm />
+                    <Suspense fallback={<>Loading....</>}>
+                        <TaskForm />
+                    </Suspense>
                 </div>
             </div>
 
